@@ -1,265 +1,151 @@
-<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<meta name="title" content="Textil Rosdan, Serveis publicitaris">
-<meta name="description" content="Textil publicitario, ropa deportiva y laboral">
-<meta name="keywords" content="publicidad, chandal, camiseta, deporte">
-<meta name="author" content="https://textilrosdan.com/">
-<meta name="generator" content="TextilRosdan">
-<meta name="language" content="es">
-<meta name="robots" content="all">
-<link rel="previous" href="https://textilrosdan.com/">
-<title>Base de datos </title>
-<style type='text/css'>
-body {font-family:verdana, arial, times; font-size:12px; font-weight:bold;
-         color:black; background-color:#f0f0d2; margin:0,3em,0,3em;
-         scrollbar-face-color:#aa8866;
-         scrollbar-highlight-color:#ffddaa; overflow:auto; }
-input {font-size:1.1em; border:1px, solid black; font-weight:bold;
-          background-color:#fbfbdd; margin:0; font-family: 'courier new', monotype;}
-.tit {margin:0; color:#800; font-size:1.2em; font-weight:bold;}
-a:link, a:visited { font-size:1em; font-weight:bold; color:#d61 }
-hr {height:.2em; color:#008;}
-span {margin:0; color:#800; }
-.som { filter: shadow(Color=#656a4a,Direction=135); }
-</style>
-
-<script language='javascript'>
-var ld = new Array();
-var d=0;
-var let='';
-var reg='';
-var strReg='';
-var noLet=true;
-
-function inicio() {
-ld=ld.sort();
-ampliar();
-pantalla();
-statmen();
-tabdat.style.height=window.screen.availHeight*.53;
-texReg.style.height=window.screen.availHeight*.5;
-texto.value=''; texto.focus();
-}
-function ampliar() {
-window.moveTo(0,0);
-//if (document.all) top.window.resizeTo(screen.availWidth,screen.availHeight)
-//else window.alert('Posiblemente no se presente correctamente esta página\nsin Internet Explorer 5 o superior.');
-}
-function pantalla() {
-if (window.screen.width < '700') {document.body.style.fontSize='10px'; return;}
-if ((window.screen.width < '1000') && (document.body.style.fontSize=='12px')) return;
-if (window.screen.width < '1000') document.body.style.fontSize='12px'
-  else document.body.style.fontSize='14px';
-}
-var espa=' '
-var statext="ZOOM      +%: Alt++      -%: Alt+-      100%: Alt+.";
-function statmen() {
-(espa==' ') ? espa='    ' : espa=' ';
-window.status=espa+statext;
-setTimeout("statmen()",5000);
-}
-function zoomvar(fac) {
-if (fac=='.') {pantalla(); return;}
-var zo=parseInt(document.body.style.fontSize);
-(fac=='+') ? zo+=1 : zo-=1;
-document.body.style.fontSize=zo+'px';
-fuera.focus();
-}
-
-function cargar() {
-if (base.value=='') base.value='_direc';
-ld = new Array();
-d=0;
-dirScript.src=base.value+".txt";
-if (ld.length==0) {texReg.innerText='No existen registros creados o la base de datos no existe.'; base.focus(); base.select();}
-  else {texReg.innerText=''; ld=ld.sort(); texto.focus()}
-}
-
-function intro() {
-if (event.keyCode=='13') calReg();
-}
-
-function calReg() {
-todos.checked=false;
-if (texto.value=='') { texto2.value=''; checky.checked=false; 
-     checko.checked=false; todos.checked=false; }
-let='';
-if (letra.value!='' ) { let=letra.value.toLowerCase() }
-if (let!='' && texto.value=='') { verLet(); return; }
-if (texto.value=='') {texto.focus(); return;}
-if (texto2.value=='' && checky.checked==true) checky.checked=false;
-if (texto2.value=='' && checko.checked==true) checko.checked=false;
-if (checky.checked==false && checko.checked==false) texto2.value='';
-var cla='';
-if (texto2.value=='') cla='t';  // sólo 'texto'
-if (checky.checked==true) cla='y'; // 'texto2' con 'y'
-if (checko.checked==true) cla='o'; // 'texto2' con 'o'
-var texbus='';
-for (d=0; d<ld.length; d++) {
-  reg=ld[d].toLowerCase();
-  texbus=texto.value.toLowerCase();
-  var bus1=reg.indexOf(texbus);
-  if (bus1!=-1 && cla=='t') {comLet(); if (noLet) continue; verReg(); continue;};
-  if (bus1!=-1 && cla=='o') {comLet(); if (noLet) continue; verReg(); continue;};
-  var texbus=texto2.value.toLowerCase();
-  var bus2=reg.indexOf(texbus);
-  if (cla=='y') if (bus1!=-1 && bus2!=-1) {comLet(); if (noLet) continue; verReg(); continue;};
-  if (cla=='o' && bus2!=-1) {comLet(); if (noLet) continue; verReg();}; }
-if (strReg!='') {texReg.innerHTML=strReg; strReg=''; texReg.focus(); return;}
-if (cla=='t') strReg='No existe el texto \"'+texto.value.toUpperCase()+'\" en ningún registro'; 
-if (cla=='o') strReg='No existe el texto \"'+texto.value.toUpperCase()+'\" ni el texto \"'+texto2.value.toUpperCase()+'\" en ningún registro';
-if (cla=='y') strReg='No existen el texto \"'+texto.value.toUpperCase()+'\" y el texto \"'+texto2.value.toUpperCase()+'\" en un mismo registro';
-if (letra.value!='') strReg+=' que comience con \"'+letra.value.toUpperCase()+'\".' 
-   else strReg+='.';
-texReg.innerText=strReg; strReg=''; texto.select();    
-}
-function verReg() {
-var texind='';
-var bus=0;
-var reg2=ld[d];      // sin toLowerCase
-
-var ind1=reg2.indexOf('$');
-var ind2=reg2.lastIndexOf('$');
-if (ind1!=ind2) {
-    texind=reg2.slice(ind1+1,ind2);
-    bus=texind.indexOf('@');   
-    if (bus!=-1) texind='<a href=\"mailto:'+texind+'\">'+texind+'</a>'
-       else texind='<span style=\"color:#f86; font-style:italic\">'+texind+' -ERROR-</span>';
-    reg2=reg2.slice(0,ind1)+texind+reg2.slice(ind2+1); } 
-
-ind1=reg2.indexOf('%');
-ind2=reg2.lastIndexOf('%');
-if (ind1!=ind2) {
-    texind=reg2.slice(ind1+1,ind2);
-    bus=texind.indexOf('@');   
-    if (bus!=-1) texind='<span style=\"color:#f86; font-style:italic\">'+texind+' -ERROR-</span>'
-    else if (texind.substr(0,7)=='http://') 
-          texind='<a href=\"'+texind+'\" target=\"_blank\" style=\"color:blue\">'+texind+'</a>'
-         else if (texind.substr(1,2)==':/')    
-{ son=texind.substr(texind.length-4,4);
-  if (son=='.wav' || son=='.mid' || son=='.mp3')
-     texind='<a href=\"#\" onclick=\"sonido.src=\''+texind+'\'\" style=\"color:green\">'+texind+'</a>'
-       else { if (son=='.txt') texind='<a href="view-source:file://'+texind+'" style=\"color:green\">'+texind+'</a>';
-               else texind='<a href=\"'+texind+'\" target=\"_blank\" style=\"color:green\">'+texind+'</a>'}
-}    
-         else  texind='<span style=\"color:#f86; font-style:italic\">'+texind+' -ERROR-</span>';    
-    reg2=reg2.slice(0,ind1)+texind+reg2.slice(ind2+1); }
-strReg+=reg2+'<br><br>';
-}
-
-function comLet() {
-noLet=true;
-if (let=='') {noLet=false; return;}
-var lon=let.length;
-var reg2=ld[d].toLowerCase().substring(0,lon);
-if (let==reg2) noLet=false;
-}
-
-function verLet() {
-var lon=let.length;
-for (d=0; d<ld.length; d++) {
-  reg=ld[d].toLowerCase().substring(0,lon);
-  if (let==reg) { reg=ld[d].toLowerCase(); verReg()}; };
-if (strReg=='') { texReg.innerText='Ningún registro comienza con \"'+letra.value.toUpperCase()+'\".';
-    letra.select() }
-  else { texReg.innerHTML=strReg; strReg=''; texReg.focus(); }
-}
-
-function todosReg() {
-strReg='';
-for (d=0; d<ld.length; d++) {
-reg=ld[d]; verReg() };
-if (strReg=='') texReg.innerText='No existen registros creados o la base de datos no existe.'
-  else texReg.innerHTML=strReg; 
-strReg=''; texReg.focus();
-}
-
-function borrar() {
-texto.value=""; texto2.value=''; checky.checked=false; 
-checko.checked=false; letra.value=''; todos.checked=false;
-}
-
-function borrarT() {
-texto.value=""; texto2.value=''; checky.checked=false; 
-checko.checked=false; letra.value='';
-}
-
-function modReg() {
-borrar(); texReg.innerText='';
-texto.value='PRESIONE TECLA F5'; texto.select();
-var arc=base.value+'.txt';
-base.value='_direc';
-abrir(arc);
-}
-
-function abrir(arc) {
-var dir=new String(document.location);
-var pos=dir.lastIndexOf("/");
-dir=dir.substring(0,pos+1)+arc;
-document.location="view-source:"+dir;
-}
-</script>
-
-
-<script id='dirScript' src='_direc.txt' type='text/javascript'></script>
-
+    <meta charset="UTF-8">
+    <title>Aplicación de Registro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #registros {
+            margin-top: 20px;
+        }
+        #registros table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        #registros th, #registros td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
 </head>
-
-<body onload='inicio()'>
-<span style='position:absolute'>
-<a href='#' onfocus='zoomvar("+")' accesskey='+'></a>
-<a href='#' onfocus='zoomvar("-")' accesskey='-'></a>
-<a href='#' onfocus='zoomvar(".")' accesskey='.'></a>
-<a href='#' id='fuera'></a></span>
-<bgsound id='sonido' src='' />
-<br><span class='tit'>Seguimiento de producción
-  <a href='https://textilrosdan.com/' target='_blank' title='TextilRosdan'>
-  <span style='font-size:1.1em; color:#d61'>TextilRosdan</span></a>&nbsp;&nbsp;&nbsp; Ba<u>s</u>e de datos: <input type='text' id='base' onfocus='borrar()' onkeydown='if (event.keyCode=="13") this.blur()' onblur='cargar()' accesskey='s' style='width:12em; text-align:center' value='_direc' title='Introduzca nombre de base de datos sin ".txt"' /></span>
-<hr>
-<div style='text-align:center'>
-
-<span>Buscar registros con <u>t</u>exto</span>
-<input type='text' id='texto' onkeydown='intro()' accesskey='t'
-   style='width:15em;'></input>&nbsp;&nbsp;<span><u>y</u></span>
-<input type='checkbox' id='checky' accesskey='y' style='border:0; background-color:#f0f0d2'
-onclick='checko.checked=false'></input>&nbsp;&nbsp;<span><u>o</u></span>
-<input type='checkbox' id='checko' accesskey='o' style='border:0; background-color:#f0f0d2'
-onclick='checky.checked=false'></input>&nbsp;
-<input type='text' id='texto2' onkeydown='intro()' style='width:15em'></input><br>
-
-<span>que comiencen con <u>c</u>arácter(es) </span>
-<input type='text' id='letra' onkeydown='intro()' accesskey='c' style='width:5em;'></input>
-<a href='#' id='act' onfocus="calReg()" style='text-decoration:none'>&nbsp;</a>
-
-<span>o to<u>d</u>os</span>
-<input type='checkbox' id='todos' accesskey='d' onfocus='borrarT()' onclick='todosReg()'
-    style='border:0; background-color:#f0f0d2'></input>.
-&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' onfocus='borrar(); texReg.innerText=""; texto.focus()' accesskey='b' style='text-decoration:none;'><span><u>B</u>orrar todo.</span></a><br>
-<div style='text-align:left'>
-<a href='#' accesskey='l' onfocus='texReg.focus()' style='text-decoration:none; font-size:.9em; color:#800'><u>L</u>istado de registros coincidentes:</a></div>
-<br style='line-height:.3em'> 
-<table id='tabdat' style='font-size:1em; width:100%; border:0;'>
-<tr><td class='som' style='padding:0; vertical-align:top;'>
-<div class='som' id='texReg' title='Alt+N para instrucciones y nuevos registros' 
-style='width:98%; font-family:"courier new",monospace,arial; font-weight:bold;
-     vertical-align:top; background-image:url(grid.gif);
-     padding:1em; text-align:left; overflow:auto;'></div></td></tr></table>
-<span style='border:2px outset; background-color:#fbfbdd;'><a href="#" onfocus="modReg()" id='nue' accesskey='n' tabindex='-1' 
- style='text-decoration:none;height:17px' title='Active para crear nuevos registros o modificarlos'>&nbsp;&nbsp;<u>N</u>uevos registros, modificaciones e instrucciones&nbsp;&nbsp;</a></span><br>
-<hr>
-
-<span style='font-weight:normal; font-size:.9em'>Esta utilidad es parte de: <a href='https://textilrosdan.com/'
- target='_blank' ><img src='initit.jpg' width='80' height='20' border='0' 
- style='vertical-align:middle' title='Posiblemente la mejor utilidad de escritorio'></a> 
- <a href='https://textilrosdan.com/' target='_blank' style='font-weight:normal'></a><br>
-Te invito a visitar nuestra Web: <a href='https://textilrosdan.com/' 
- target='_blank'><img src='jrmweb.gif' width='120' height='17' border='0' 
- style='vertical-align:middle' title='¿En qué te podemos servir?'></a></span>
-
-<br><br>
-
-</div> 
-</body></html>
+<body>
+    <h1>Aplicación de Registro</h1>
+    <form id="registroForm">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" required>
+        
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" required>
+        
+        <label for="edad">Edad:</label>
+        <input type="number" id="edad" required>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+        
+        <button type="button" onclick="agregarRegistro()">Agregar Registro</button>
+    </form>
+    
+    <div id="registros">
+        <h2>Registros:</h2>
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Edad</th>
+                <th>Email</th>
+                <th></th>
+            </tr>
+        </table>
+    </div>
+    
+    <script>
+        // Función para agregar un nuevo registro
+        function agregarRegistro() {
+            var nombre = document.getElementById('nombre').value;
+            var apellido = document.getElementById('apellido').value;
+            var edad = document.getElementById('edad').value;
+            var email = document.getElementById('email').value;
+            
+            if (nombre && apellido && edad && email) {
+                var registro = nombre + ' - ' + apellido + ' - ' + edad + ' - ' + email;
+                guardarRegistro(registro);
+                mostrarRegistros();
+                limpiarFormulario();
+            } else {
+                alert('Por favor, completa todos los campos');
+            }
+        }
+        
+        // Función para guardar el registro en el archivo de texto
+        function guardarRegistro(registro) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.open('POST', 'base.txt', true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send('registro=' + encodeURIComponent(registro));
+        }
+        
+        // Función para mostrar los registros almacenados
+        function mostrarRegistros() {
+            var registrosDiv = document.getElementById('registros');
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var registros = this.responseText.split('\n');
+                    var tableHTML = '<table><tr><th>Nombre</th><th>Apellido</th><th>Edad</th><th>Email</th><th></th></tr>';
+                    registros.forEach(function(registro) {
+                        if (registro) {
+                            var campos = registro.split(' - ');
+                            tableHTML += '<tr>';
+                            campos.forEach(function(campo) {
+                                tableHTML += '<td>' + campo + '</td>';
+                            });
+                            tableHTML += '<td><button onclick="eliminarRegistro(this)">Eliminar</button></td>';
+                            tableHTML += '</tr>';
+                        }
+                    });
+                    tableHTML += '</table>';
+                    registrosDiv.innerHTML = tableHTML;
+                }
+            };
+            xhttp.open('GET', 'base.txt', true);
+            xhttp.send();
+        }
+        
+        // Función para eliminar un registro
+        function eliminarRegistro(button) {
+            var row = button.parentNode.parentNode;
+            var registro = '';
+            for (var i = 0; i < row.cells.length - 1; i++) {
+                registro += row.cells[i].innerText.trim() + ' - ';
+            }
+            registro = registro.slice(0, -3); // Eliminar el último " - "
+            var xhttp = new XMLHttpRequest();
+            xhttp.open('POST', 'base.txt', true);
+            xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhttp.send('eliminar=' + encodeURIComponent(registro));
+            row.remove();
+        }
+        
+        // Función para limpiar el formulario después de agregar un registro
+        function limpiarFormulario() {
+            document.getElementById('nombre').value = '';
+            document.getElementById('apellido').value = '';
+            document.getElementById('edad').value = '';
+            document.getElementById('email').value = '';
+        }
+        
+        // Cargar los registros al cargar la página
+        window.onload = mostrarRegistros;
+    </script>
+</body>
+</html>
 
