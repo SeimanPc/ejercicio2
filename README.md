@@ -1,2 +1,3 @@
 # ejercicio2
-BAse de datos de texto
+BA
+Base de datos de texto
